@@ -2,9 +2,9 @@ import json
 import logging
 from typing import List, Dict, Any
 from openai import AsyncOpenAI
-from ...core.config import settings
-from ...models.website import Issue as IssueModel
-from ...schemas.website import ReportBase
+from ..core.config import settings
+from ..models.website import Issue as IssueModel
+from ..schemas.website import ReportBase
 
 logger = logging.getLogger(__name__)
 

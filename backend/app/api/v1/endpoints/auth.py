@@ -8,7 +8,7 @@ from ....core import security
 from ....core.config import settings
 from ....core.database import get_db
 from ....models.user import User
-from ....schemas.user import User as UserSchema, UserCreate, Token
+from ....schemas.user import User as UserSchema, UserCreate, UserUpdate, Token
 from ...deps import get_current_user
 
 router = APIRouter()
