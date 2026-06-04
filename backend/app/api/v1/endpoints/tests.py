@@ -113,6 +113,14 @@ async def trigger_test_run(
     await db.commit()
     await db.refresh(db_test_run)
     
+    # Reload with report relationship to ensure it's loaded for serialization
+    result = await db.execute(
+        select(TestRunModel)
+        .where(TestRunModel.id == db_test_run.id)
+        .options(joinedload(TestRunModel.report))
+    )
+    db_test_run = result.scalar_one()
+    
     background_tasks.add_task(run_website_test, db_test_run.id, website.id, website.url, SessionLocal)
     
     return db_test_run
