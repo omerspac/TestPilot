@@ -119,7 +119,7 @@ async def trigger_test_run(
         .where(TestRunModel.id == db_test_run.id)
         .options(joinedload(TestRunModel.report))
     )
-    db_test_run = result.scalar_one()
+    db_test_run = result.unique().scalar_one()
     
     background_tasks.add_task(run_website_test, db_test_run.id, website.id, website.url, SessionLocal)
     
@@ -137,7 +137,7 @@ async def get_all_test_runs(
         .options(joinedload(TestRunModel.report))
         .order_by(TestRunModel.started_at.desc())
     )
-    return result.scalars().all()
+    return result.unique().scalars().all()
 
 @router.get("/{website_id}/history", response_model=List[TestRun])
 async def get_test_history(
@@ -151,7 +151,7 @@ async def get_test_history(
         .options(joinedload(TestRunModel.report))
         .order_by(TestRunModel.started_at.desc())
     )
-    return result.scalars().all()
+    return result.unique().scalars().all()
 
 @router.get("/status/{test_run_id}", response_model=TestRun)
 async def get_test_run_status(
@@ -169,7 +169,7 @@ async def get_test_run_status(
         )
         .options(joinedload(TestRunModel.report))
     )
-    test_run = result.scalar_one_or_none()
+    test_run = result.unique().scalar_one_or_none()
     if not test_run:
         raise HTTPException(status_code=404, detail="Test run not found")
     return test_run

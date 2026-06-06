@@ -10,13 +10,17 @@ logger = logging.getLogger(__name__)
 
 class ReportService:
     def __init__(self):
-        self.client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+        self.client = AsyncOpenAI(
+            api_key=settings.OPENAI_API_KEY,
+            base_url=settings.OPENAI_BASE_URL
+        )
 
     async def generate_report(self, issues: List[IssueModel], metrics: Dict[str, Any]) -> Dict[str, Any]:
         """
         Generates an AI-powered report based on detected issues and metrics.
         """
         if not settings.OPENAI_API_KEY or settings.OPENAI_API_KEY == "sk-placeholder":
+            logger.warning("OpenAI API key missing or placeholder. Using mock report.")
             return self._generate_mock_report(issues)
 
         # Prepare data for AI
@@ -59,18 +63,20 @@ class ReportService:
         """
 
         try:
+            logger.info(f"Generating AI report using model: {settings.OPENAI_MODEL} and base_url: {settings.OPENAI_BASE_URL}")
             response = await self.client.chat.completions.create(
-                model="gpt-4o-mini", # Cost-effective and fast
+                model=settings.OPENAI_MODEL,
                 messages=[
-                    {{"role": "system", "content": "You are a helpful assistant that outputs only valid JSON."}},
-                    {{"role": "user", "content": prompt}}
+                    {"role": "system", "content": "You are a helpful assistant that outputs only valid JSON."},
+                    {"role": "user", "content": prompt}
                 ],
-                response_format={{ "type": "json_object" }},
+                response_format={ "type": "json_object" },
                 max_tokens=1000,
                 temperature=0.7
             )
             
             report_content = response.choices[0].message.content
+            logger.info("AI report generated successfully.")
             return json.loads(report_content)
 
         except Exception as e:

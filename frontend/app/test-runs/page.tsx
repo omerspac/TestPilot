@@ -311,9 +311,9 @@ function TestRunsContent() {
 
                         {/* Action Buttons */}
                         <td className="px-6 py-5 text-right whitespace-nowrap">
-                          {run.status === 'completed' && run.report ? (
+                          {run.status === 'completed' ? (
                             <Link
-                              href={`/reports/${run.report.id}`}
+                              href={`/reports/${run.report?.id || run.id}`}
                               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 hover:bg-primary text-primary hover:text-primary-foreground border border-primary/10 text-xs font-bold rounded-xl transition-all"
                             >
                               View Report

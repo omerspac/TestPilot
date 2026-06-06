@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { user, logout, isLoading } = useAuth();
   const pathname = usePathname();
-  const isPublicRoute = ['/login', '/register', '/'].includes(pathname);
+  const isPublicRoute = ['/login', '/register', '/', '/pricing'].includes(pathname);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Close mobile menu on route change
