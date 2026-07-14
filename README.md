@@ -23,9 +23,9 @@ TestPilot is a full-stack SaaS application for automated website testing.
    ```
 
 ### Accessing the App
-- **Frontend**: [http://localhost:3000](http://localhost:3000)
-- **Backend API**: [http://localhost:8000](http://localhost:8000)
-- **API Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Frontend**: [http://localhost:3000](http://localhost:3000) (FOR LOCAL)
+- **Backend API**: [http://localhost:8000](http://localhost:8000) (FOR LOCAL)
+- **API Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs) (FOR LOCAL)
 
 ## Features Implemented
 - **Authentication**: Register and Login functionality with JWT.
